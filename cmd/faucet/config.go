@@ -18,7 +18,6 @@ package main
 
 import (
 	"io/ioutil"
-
 	"time"
 
 	"github.com/CovenantSQL/CovenantSQL/utils/log"

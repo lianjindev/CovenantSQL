@@ -17,11 +17,10 @@
 package main
 
 import (
-	"flag"
-	"os"
-
 	"context"
+	"flag"
 	"net/http"
+	"os"
 	"os/signal"
 	"time"
 
