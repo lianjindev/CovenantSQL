@@ -78,7 +78,7 @@ func (t *Transfer) GetTransactionType() pi.TransactionType {
 	return pi.TransactionTypeTransfer
 }
 
-// Verify verifies the signature of TxBilling.
+// Verify verifies the signature of Transfer.
 func (t *Transfer) Verify() (err error) {
 	var enc []byte
 	if enc, err = t.TransferHeader.MarshalHash(); err != nil {
@@ -86,6 +86,20 @@ func (t *Transfer) Verify() (err error) {
 	} else if h := hash.THashH(enc); !t.HeaderHash.IsEqual(&h) {
 		return
 	} else if !t.Signature.Verify(h[:], t.Signee) {
+		return
+	}
+	return
+}
+
+// Sign the signature of Transfer.
+func (t *Transfer) Sign(signer *asymmetric.PrivateKey) (err error) {
+	var enc []byte
+	if enc, err = t.TransferHeader.MarshalHash(); err != nil {
+		return
+	}
+
+	t.HeaderHash = hash.THashH(enc)
+	if t.Signature, err = signer.Sign(t.HeaderHash[:]); err != nil {
 		return
 	}
 	return
